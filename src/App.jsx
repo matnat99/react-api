@@ -33,13 +33,13 @@ export default function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const formattedTags = formData.tags.split(",").map((tag) => tag.trim());
+
+    const postData = { ...formData, tags: formattedTags };
+
     // Invia i dati del form al server
-    axios.post("http://localhost:3000/posts", formData).then((res) => {
-      const formattedTags = formData.tags.split(",").map((tag) => tag.trim());
-
-      const postData = { ...formData, tags: formattedTags };
-
-      setPosts((currentPost) => [...currentPost, postData]);
+    axios.post("http://localhost:3000/posts", postData).then((res) => {
+      setPosts((currentPosts) => [...currentPosts, res.data]);
       setFormData(initialData);
     });
   };
